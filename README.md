@@ -1,1 +1,1 @@
-# Struktur-Data-Algoritma
+# Struktur Data Algoritma
