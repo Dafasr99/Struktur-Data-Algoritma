@@ -21,8 +21,8 @@ def evaluate_postfix(postfix_exp):
                 try:
                     operand.append(num1 // num2)
                 except ZeroDivisionError:
-                    print("[Division by zero]")
                     operand.append(num1)
+                    print("[Division by zero]")
             elif i == '$':
                 operand.append(num1 ** num2)
     
@@ -33,7 +33,12 @@ def evaluate_postfix(postfix_exp):
         return None
 
 if __name__ == '__main__':
-    postfix_exp = input("Masukkan Ekspresi Postfix: ")
-    result = evaluate_postfix(postfix_exp)
-    if result is not None:
-        print('Result:', result)
+    while True:
+        postfix_exp = input("Masukkan Ekspresi Postfix: ")
+        result = evaluate_postfix(postfix_exp)
+        if result is not None:
+            print('Nilai :', result)
+
+        choice = input("Do you want to enter another postfix expression? (y/n): ")
+        if choice.lower() != 'y':
+            break
