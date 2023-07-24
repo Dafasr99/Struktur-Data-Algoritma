@@ -55,12 +55,12 @@ def infix_to_postfix(expression):  # input expression
     return output
 
 
-# Fungsi untuk mengevaluasi ekspresi postfix dan menghitung hasilnya
+# Function to evaluate postfix expressions and calculate the result
 def evaluate_postfix(postfix_exp):
     operand = []
     operator = {'+', '-', '*', '/', '$'}
 
-    # Loop untuk mengevaluasi ekspresi postfix
+    # Function to evaluate postfix expressions and calculate the result
     for i in postfix_exp.split():
         if i.isdigit():
             operand.append(int(i))
@@ -89,7 +89,7 @@ def evaluate_postfix(postfix_exp):
     else:
         raise ValueError('Missing operand')
 
-# Fungsi untuk mengevaluasi ekspresi infix, mengonversi ke postfix, dan menampilkan hasil evaluasi di GUI
+# Functions to evaluate infix expressions, convert to postfix, and display evaluation results in the GUI
 def calculate_postfix_result(): 
     try: 
         expression = infix_entry.get()
@@ -103,7 +103,7 @@ def calculate_postfix_result():
     except ValueError as e:
         messagebox.showerror("Error", str(e))
 
-# Fungsi untuk menghapus isi field masukan dan mengatur label postfix dan result menjadi kosong
+# Function to clear the contents of the input field and set the postfix and result labels to be empty
 def input_again():
     infix_entry.delete(0, tk.END)
     postfix_label.config(text="Postfix expression: ")
