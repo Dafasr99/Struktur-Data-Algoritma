@@ -9,7 +9,7 @@ def infix_to_postfix(expression):  # input expression
     output = []  # initially output empty
     str_num = ''  # empty string for number
     count = len(expression)  # based on input length
-    infix_to_postfix.mark = 0
+    infix_to_postfix.mark = 0 # Add a mark variable to check if missing open parenthesis
 
     for ch in expression:
         count -= 1
