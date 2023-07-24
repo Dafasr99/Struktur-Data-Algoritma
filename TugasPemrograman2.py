@@ -1,7 +1,8 @@
 import tkinter as tk
 
 OPERATORS = set(['+', '-', '*', '/', '(', ')', '$'])  # set of operators
-PRIORITY = {'+': 1, '-': 1, '*': 2, '/': 2, '$': 3}  # dictionary having priorities
+PRIORITY = {'+': 1, '-': 1, '*': 2, '/': 2,
+            '$': 3}  # dictionary having priorities
 
 # convert infix to postfix
 def infix_to_postfix(expression):  # input expression
@@ -9,7 +10,7 @@ def infix_to_postfix(expression):  # input expression
     output = []  # initially output empty
     str_num = ''  # empty string for number
     count = len(expression)  # based on input length
-    infix_to_postfix.mark = 0 # Add a mark variable to check if missing open parenthesis
+    infix_to_postfix.mark = 0  # Add a mark variable to check if missing open parenthesis
 
     for ch in expression:
         count -= 1
@@ -48,6 +49,8 @@ def infix_to_postfix(expression):  # input expression
     return output
 
 # Evaluate postfix expressions and calculate the result
+
+
 def result(post):
     operand = []
     operator = ['+', '-', '*', '/', '$']
@@ -77,12 +80,15 @@ def result(post):
                         operand.append(num1 // num2)
                     except ZeroDivisionError as e:  # Handle if Division by zero
                         operand.append(num1)
-                        result.error_messages.append('Error Messages: [Division by zero]')  # Store the error message
+                        result.error_messages.append(
+                            'Error Messages: [Division by zero]')  # Store the error message
                 elif i == '$':
                     operand.append(num1 ** num2)
     return operand[-1]
 
 # Function to calculate the result and display the result and any error messages
+
+
 def on_calculate(event=None):
     expression = entry_expression.get()
     postfix = infix_to_postfix(expression)
@@ -96,8 +102,10 @@ def on_calculate(event=None):
         errors.append("Error Messages: [Missing open parenthesis]")
     if result.missing == 1:
         errors.append("Error Messages: [Missing operand]")
-    errors.extend(result.error_messages)  # Add the division by zero error message
+    # Add the division by zero error message
+    errors.extend(result.error_messages)
     error_label.config(text=", ".join(errors) if errors else "", fg="red")
+
 
 # Create the main window
 root = tk.Tk()
@@ -106,10 +114,12 @@ root.title("Convert from Infix Expression to Postfix Expression")
 # Create the expression input entry
 entry_expression = tk.Entry(root, width=30)
 entry_expression.pack(pady=10)
-entry_expression.bind("<Return>", on_calculate)  # Bind the Return key to on_calculate()
+# Bind the Return key to on_calculate()
+entry_expression.bind("<Return>", on_calculate)
 
 # Create the calculate button
-calculate_button = tk.Button(root, text="Calculate", command=on_calculate, bg="pink", fg="black", font=("Arial", 12))
+calculate_button = tk.Button(
+    root, text="Calculate", command=on_calculate, bg="pink", fg="black", font=("Arial", 12))
 calculate_button.pack()
 
 # Create the postfix label
