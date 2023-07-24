@@ -1,23 +1,16 @@
 import tkinter as tk
-from tkinter import messagebox
 
 OPERATORS = set(['+', '-', '*', '/', '(', ')', '$'])  # set of operators
 PRIORITY = {'+': 1, '-': 1, '*': 2, '/': 2, '$': 3}  # dictionary having priorities
 
-# Function to delete the contents of the input field (Entry)
-def clear_fields():
-    infix_entry.delete(0, tk.END)
-    postfix_label.config(text="Postfix expression: ")
-    result_label.config(text="Result: ")
-
-# Function to convert infix expression to postfix
+# convert infix to postfix
 def infix_to_postfix(expression):  # input expression
     operator = []  # initially operator empty
     output = []  # initially output empty
     str_num = ''  # empty string for number
     count = len(expression)  # based on input length
+    infix_to_postfix.mark = 0
 
-    # Loop untuk mengonversi ekspresi infix ke postfix
     for ch in expression:
         count -= 1
         if ch not in OPERATORS:  # if ch is a number
@@ -38,7 +31,7 @@ def infix_to_postfix(expression):  # input expression
             elif ch == ')':
                 while operator and operator[-1] != '(':
                     if '(' not in operator:
-                        raise ValueError('Missing open parenthesis')
+                        infix_to_postfix.mark = 1  # Check if missing open parenthesis
                     output += operator.pop()
                 if '(' in operator:
                     operator.pop()
@@ -54,83 +47,82 @@ def infix_to_postfix(expression):  # input expression
         output += operator.pop()
     return output
 
-
-# Function to evaluate postfix expressions and calculate the result
-def evaluate_postfix(postfix_exp):
+# Evaluate postfix expressions and calculate the result
+def result(post):
     operand = []
-    operator = {'+', '-', '*', '/', '$'}
+    operator = ['+', '-', '*', '/', '$']
+    result.missing = 0
+    result.error_messages = []  # Add an error_messages list to store all error messages
 
-    # Function to evaluate postfix expressions and calculate the result
-    for i in postfix_exp.split():
-        if i.isdigit():
-            operand.append(int(i))
-        elif i in operator:
-            if len(operand) < 2:
-                raise ValueError('Missing operand')
-            num2 = operand.pop()
-            num1 = operand.pop()
-            if i == '+':
-                operand.append(num1 + num2)
-            elif i == '-':
-                operand.append(num1 - num2)
-            elif i == '*':
-                operand.append(num1 * num2)
-            elif i == '/':
-                try:
-                    operand.append(num1 // num2)
-                except ZeroDivisionError:
-                    raise ValueError('Division by zero')
-                    operand.append(num1)
-            elif i == '$':
-                operand.append(num1 ** num2)
+    for i in post:
+        if i == ' ':
+            continue
+        elif i not in operator:
+            operand.append(i)
+        else:
+            num2 = int(operand.pop())
+            if len(operand) == 0:  # Handle if missing operand
+                result.missing = 1
+                operand.append(num2)
+            else:
+                num1 = int(operand.pop())
+                if i == '+':
+                    operand.append(num1 + num2)
+                elif i == '-':
+                    operand.append(num1 - num2)
+                elif i == '*':
+                    operand.append(num1 * num2)
+                elif i == '/':
+                    try:
+                        operand.append(num1 // num2)
+                    except ZeroDivisionError as e:  # Handle if Division by zero
+                        operand.append(num1)
+                        result.error_messages.append('Error Messages: [Division by zero]')  # Store the error message
+                elif i == '$':
+                    operand.append(num1 ** num2)
+    return operand[-1]
 
-    if len(operand) == 1:
-        return operand[0]
-    else:
-        raise ValueError('Missing operand')
+# Function to calculate the result and display the result and any error messages
+def on_calculate(event=None):
+    expression = entry_expression.get()
+    postfix = infix_to_postfix(expression)
+    result_value = result(postfix)
 
-# Functions to evaluate infix expressions, convert to postfix, and display evaluation results in the GUI
-def calculate_postfix_result(): 
-    try: 
-        expression = infix_entry.get()
-        postfix = infix_to_postfix(expression)
-        postfix_str = " ".join(postfix)
-        postfix_label.config(text="Postfix expression: " + postfix_str)
+    postfix_label.config(text="Postfix expression: " + ' '.join(postfix))
+    result_label.config(text="Result: " + str(result_value))
 
-        result = evaluate_postfix(postfix_str)
-        result_label.config(text="Result: " + str(result))
+    errors = []
+    if infix_to_postfix.mark == 1:
+        errors.append("Error Messages: [Missing open parenthesis]")
+    if result.missing == 1:
+        errors.append("Error Messages: [Missing operand]")
+    errors.extend(result.error_messages)  # Add the division by zero error message
+    error_label.config(text=", ".join(errors) if errors else "", fg="red")
 
-    except ValueError as e:
-        messagebox.showerror("Error", str(e))
+# Create the main window
+root = tk.Tk()
+root.title("Convert from Infix Expression to Postfix Expression")
 
-# Function to clear the contents of the input field and set the postfix and result labels to be empty
-def input_again():
-    infix_entry.delete(0, tk.END)
-    postfix_label.config(text="Postfix expression: ")
-    result_label.config(text="Result: ")
+# Create the expression input entry
+entry_expression = tk.Entry(root, width=30)
+entry_expression.pack(pady=10)
+entry_expression.bind("<Return>", on_calculate)  # Bind the Return key to on_calculate()
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    root.title("Postfix Expression Evaluator")
-    root.geometry("400x200")
-    root.configure(bg="pink")
+# Create the calculate button
+calculate_button = tk.Button(root, text="Calculate", command=on_calculate)
+calculate_button.pack()
 
-    infix_label = tk.Label(root, text="Input Infix Expression:", bg="pink")
-    infix_label.pack()
+# Create the postfix label
+postfix_label = tk.Label(root, text="Postfix expression: ")
+postfix_label.pack(pady=5)
 
-    infix_entry = tk.Entry(root)
-    infix_entry.pack()
+# Create the result label
+result_label = tk.Label(root, text="Result: ")
+result_label.pack(pady=5)
 
-    evaluate_button = tk.Button(root, text="Evaluate Postfix", command=calculate_postfix_result)
-    evaluate_button.pack()
+# Create the error label
+error_label = tk.Label(root, text="", fg="red")
+error_label.pack(pady=5)
 
-    input_again_button = tk.Button(root, text="Input", command=input_again)
-    input_again_button.pack()
-
-    postfix_label = tk.Label(root, text="", bg="pink")
-    postfix_label.pack()
-
-    result_label = tk.Label(root, text="", bg="pink")
-    result_label.pack()
-
-    root.mainloop()
+# Start the GUI main loop
+root.mainloop()
