@@ -27,7 +27,7 @@ def evaluate_postfix(postfix_exp):
         elif i in operator:
             if len(operand) < 2:
                 error_messages.append("Missing operand")
-                return None, error_messages
+                return operand[0], error_messages
             num2 = operand.pop()
             num1 = operand.pop()
             if i == '+':
@@ -38,8 +38,8 @@ def evaluate_postfix(postfix_exp):
                 operand.append(num1 * num2)
             elif i == '/':
                 if num2 == 0:
-                    operand.append(num1)
                     error_messages.append("Division by zero")
+                    return num1, error_messages
                 else:
                     operand.append(num1 // num2)
             elif i == '$':
