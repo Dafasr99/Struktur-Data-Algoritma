@@ -109,7 +109,7 @@ entry_expression.pack(pady=10)
 entry_expression.bind("<Return>", on_calculate)  # Bind the Return key to on_calculate()
 
 # Create the calculate button
-calculate_button = tk.Button(root, text="Calculate", command=on_calculate)
+calculate_button = tk.Button(root, text="Calculate", command=on_calculate, bg="pink", fg="black", font=("Arial", 12))
 calculate_button.pack()
 
 # Create the postfix label
