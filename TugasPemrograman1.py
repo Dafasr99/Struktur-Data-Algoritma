@@ -39,7 +39,7 @@ def evaluate_postfix(postfix_exp):
             elif i == '/':
                 if num2 == 0:
                     error_messages.append("Division by zero")
-                    return num1, error_messages
+                    return num1, error_messages, 
                 else:
                     operand.append(num1 // num2)
             elif i == '$':
@@ -51,7 +51,7 @@ def evaluate_postfix(postfix_exp):
     else:
         error_messages.append("Missing operand")
         return None, error_messages
-
+    
 # Main program
 if __name__ == '__main__':
     continue_program = True
@@ -60,8 +60,8 @@ if __name__ == '__main__':
     while continue_program:
         postfix_exp = get_postfix_expression()
         result, error_messages = evaluate_postfix(postfix_exp)
-        print("Nilai:", result)
-        print("Error Messages:", error_messages)
+        print("Nilai: ".ljust(26), result)
+        print("Error Messages: ".ljust(26), error_messages)
 
         # Loop to ask the user if they want to enter another postfix expression
         valid_choice = False
