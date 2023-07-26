@@ -1,8 +1,7 @@
 import tkinter as tk
 
 OPERATORS = set(['+', '-', '*', '/', '(', ')', '$'])  # set of operators
-PRIORITY = {'+': 1, '-': 1, '*': 2, '/': 2,
-            '$': 3}  # dictionary having priorities
+PRIORITY = {'+': 1, '-': 1, '*': 2, '/': 2,'$': 3}  # dictionary having priorities
 
 # convert infix to postfix
 def infix_to_postfix(expression):  # input expression
@@ -49,8 +48,6 @@ def infix_to_postfix(expression):  # input expression
     return output
 
 # Evaluate postfix expressions and calculate the result
-
-
 def result(post):
     operand = []
     operator = ['+', '-', '*', '/', '$']
@@ -87,8 +84,6 @@ def result(post):
     return operand[-1]
 
 # Function to calculate the result and display the result and any error messages
-
-
 def on_calculate(event=None):
     expression = entry_expression.get()
     postfix = infix_to_postfix(expression)
@@ -105,7 +100,6 @@ def on_calculate(event=None):
     # Add the division by zero error message
     errors.extend(result.error_messages)
     error_label.config(text=", ".join(errors) if errors else "", fg="red")
-
 
 # Create the main window
 root = tk.Tk()
