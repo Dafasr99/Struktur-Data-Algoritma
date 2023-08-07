@@ -13,8 +13,10 @@ for i in range(table_size):
 
 # cek panjang hashtable
 def len_hash(hash_table):
-    if len(hash_table) == None: return 0
-    else: return len(hash_table)
+    if len(hash_table) == None:
+        return 0
+    else:
+        return len(hash_table)
 
 # encrypt value atau password 
 def encrypt(password):
@@ -286,7 +288,7 @@ while True:
             print('Username Not Found\n')
 
      # kasus untuk count_username
-    elif len(user_input) == 1 and user_input[0] == 'COUNT_USERNAME':
+    elif command == 'COUNT_USERNAME' and len(rest) == 0:
         print(element)
     
     # cek kapasitas hashtable
@@ -307,8 +309,3 @@ while True:
         print('Wrong input! Please put correct input\n')
 
 # end program
-
-
-
-
-  
