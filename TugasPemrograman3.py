@@ -91,7 +91,6 @@ def checkPrima(size):
     return True
 
 # mencari bilangan prima selanjutnya
-# use refereces from geeksforgeeks
 def nextPrima(size):
     if (size <= 1):
         return 2
@@ -132,7 +131,7 @@ def extend_table():
     return hash_table
 
 # looping untuk input
-print('Masukkin perintah: \n')
+print('Masukkin perintah: ')
 while True:
     user_input = input().strip()  # Menghapus spasi di awal dan akhir
 
@@ -180,7 +179,7 @@ while True:
             print('Invalid format! Please use: REGISTER [Username] [Password]')
             
     # kasus untuk login
-    elif len(user_input) == 3 and user_input[0] == 'LOGIN':
+    elif len(user_input) == 5 and user_input == 'LOGIN':
         key = user_input[1]                 # Ambil username
         value = encrypt(user_input[2])
 
@@ -200,7 +199,7 @@ while True:
             print("You've already log in\n")
 
     # edit usn atau password
-    elif len(user_input) == 3 and user_input[0] == 'EDIT_CURRENT':
+    elif len(user_input) == 12 and user_input == 'EDIT_CURRENT':
         pilihan = user_input[1]                # opsi antara username atau password
         value = user_input[2]                  # ambil value yang ingin diubah
         hashcode = convert_to_hashcode(value)  # Ubah username ke hashcode
@@ -228,7 +227,7 @@ while True:
             print("You Have Not Been Logged In\n")
 
     # untuk ngasih tau siapa yang login
-    elif len(user_input) == 1 and user_input[0] == 'IS_AUTHENTICATED':
+    elif len(user_input) == 16 and user_input == 'IS_AUTHENTICATED':
         # kondisi belum ada yg login
         if login_user == []:
             print('Please Login\n')
@@ -236,7 +235,7 @@ while True:
         else:
             print(login_user[0], login_user[1], '\n')
 
-    elif len(user_input) == 3 and user_input[0] == 'UNREGISTER':
+    elif len(user_input) == 10 and user_input == 'UNREGISTER':
         key = user_input[1]             # username
         value = encrypt(user_input[2])  # password yg sudah di enkripsi
 
@@ -256,7 +255,7 @@ while True:
             print('Please Log Out Your Account\n')
     
     # kondisi buat user yang mau logout
-    elif len(user_input) == 1 and user_input[0] == 'LOGOUT':
+    elif len(user_input) == 6 and user_input == 'LOGOUT':
         # kalo user belum login
         if login_user == []:
             print('You Have Not Been Logged In\n')
@@ -266,7 +265,7 @@ while True:
             current = []
             print('You Have Been Logged Out\n')
 
-    elif len(user_input) == 2 and user_input[0] == 'INSPECT':
+    elif len(user_input) == 7 and user_input == 'INSPECT':
         row = int(user_input[1])             # Ambil username
 
         try:
@@ -279,7 +278,7 @@ while True:
             print('Inspect out of table size\n')
 
     # cek username apakah ada di hashtable/teregistrasi
-    elif len(user_input) == 2 and user_input[0] == 'CHECK_USERNAME':
+    elif len(user_input) == 14 and user_input == 'CHECK_USERNAME':
         key = user_input[1]                 # Ambil username
 
         if (get_key(key) == True): 
@@ -292,12 +291,12 @@ while True:
         print(element)
     
     # cek kapasitas hashtable
-    elif len(user_input) == 1 and user_input[0] == 'CAPACITY':
-        print(len_hash(hash_table), '\n')
+    elif len(user_input) == 8 and user_input == 'CAPACITY':
+        print(len_hash(hash_table))
     
     # nyoba print semua hashtable
-    elif len(user_input) == 1 and user_input[0] == 'PRINT':
-        print(hash_table, '\n')
+    elif len(user_input) == 5 and user_input == 'PRINT':
+        print(hash_table)
 
     # kasus untuk exit
     elif command == 'EXIT':
