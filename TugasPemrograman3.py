@@ -179,12 +179,12 @@ while True:
             print('Invalid format! Please use: REGISTER [Username] [Password]')
             
     # kasus untuk login
-    elif len(user_input) == 5 and user_input == 'LOGIN':
-        key = user_input[1]                 # Ambil username
-        value = encrypt(user_input[2])
+    elif command == 'LOGIN' and len(split_input) == 2:
+        key = split_input[0]                 # Ambil username
+        value = encrypt(split_input[1])
 
         # jika user belum login
-        if login_user == []:
+        if not login_user:
             if get_key(key) == False: 
                 print('Username Not Found\n')   # cek apakah username sudah teregister
             else:
@@ -196,8 +196,8 @@ while True:
                     print('Login Successful\n')
         # jika user sudah login
         else: 
-            print("You've already log in\n")
-
+            print("You've already logged in\n")
+                                                    
     # edit usn atau password
     elif len(user_input) == 12 and user_input == 'EDIT_CURRENT':
         pilihan = user_input[1]                # opsi antara username atau password
